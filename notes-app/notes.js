@@ -4,11 +4,18 @@ const getNotes = () => {
 };
 const addNotes = (body, title) => {
   const notes = loadNote();
-  notes.push({
-    title: title,
-    body: body,
-  });
-  saveNote(notes);
+  const duplicateNotes = notes.filter( note => {return note.title === title});
+  if (duplicateNotes.length === 0){
+    notes.push({
+      title: title,
+      body: body,
+    });
+    saveNote(notes);
+    console.log("Note saved")
+  }else{
+    console.log("Duplicate exists!")
+  }
+  
   // console.log(notes)
 };
 const saveNote = (notes) => {
