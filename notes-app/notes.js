@@ -2,15 +2,22 @@ const fs = require("fs");
 const chalk = require("chalk");
 
 const getNotes = () => {
-  return "your notes ...";
+  return "coming..."
+};
+
+// List notes
+const listNote = () => {
+  const notes = loadNote();
+  console.log(chalk.blueBright("Your notes!"));
+  notes.forEach((element) => {
+    console.log(element.title);
+  });
 };
 
 //ADD NOTE
 const addNotes = (body, title) => {
   const notes = loadNote();
-  const duplicateNotes = notes.filter((note) => {
-    return note.title === title;
-  });
+  const duplicateNotes = notes.filter((note) => note.title === title);
   if (duplicateNotes.length === 0) {
     notes.push({
       title: title,
@@ -21,13 +28,10 @@ const addNotes = (body, title) => {
   } else {
     console.log("Duplicate exists!");
   }
-
-  
 };
 
 // REMOVE note
 const removeNote = (title) => {
-  
   const notes = loadNote();
   const removedNotes = notes.filter((note) => {
     return note.title !== title;
@@ -59,4 +63,5 @@ module.exports = {
   getNotes: getNotes,
   addNotes: addNotes,
   removeNote: removeNote,
+  listNote: listNote
 };
