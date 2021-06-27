@@ -10,22 +10,23 @@
 
 const request = require("postman-request");
 const forecast = (latitude, longitude, callback) => {
-  const url = `http://api.weatherstack.com/current?access_key=73eb00cf3b2bf26364649d16fd78d99f&query=${longitude},${latitude}`;
-  request({ url: url, json: true }, (error, response) => {
+  const url = `http://api.weatherstack.com/current?access_key=73eb00cf3b2bf26364649d16fd78d99f&query=${encodeURIComponent(
+    longitude
+  )},${encodeURIComponent(latitude)}`;
+  request({ url, json: true }, (error, response) => {
+    const {body} = response
     if (error) {
       callback("Unable to reach weather stack server!");
-    } else if (response.body.error) {
+    } else if (body.error) {
       callback("Unable to find location");
     } else {
-      callback(undefined, {
-        temperature: response.body.current.temperature,
-        precipitation: response.body.current.precip,
-      });
+      callback(
+        undefined,
+        `It is currently ${body.current.temperature} degrees out. There is a ${body.current.precip}% chance for rain `
+      );
     }
   });
 };
-
-
 
 module.exports = forecast;
 
